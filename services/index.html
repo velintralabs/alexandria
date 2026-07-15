@@ -1984,14 +1984,13 @@ body { background: var(--void) !important; }
 
   // Multi-page active navigation
   (function () {
-    var path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-    if (!path || path === "") path = "index.html";
-    document.querySelectorAll(".nav a, .mobile-nav a, .footer-col a").forEach(function (a) {
-      var href = (a.getAttribute("href") || "").split("#")[0].toLowerCase();
-      if (!href) return;
-      var file = href.split("/").pop();
-      if (file === path || (path === "index.html" && (file === "" || file === "index.html" || file === "./"))) {
-        a.classList.add("active");
+    var path = location.pathname.replace(/\/+$/, '').split('/').pop() || '';
+    if (!path || path === 'index.html') path = '/';
+    else path = '/' + path + '/';
+    document.querySelectorAll('.nav a, .mobile-nav a, .footer-col a').forEach(function (a) {
+      var href = (a.getAttribute('href') || '').replace(/\/+$/, '') + '/';
+      if (href === path || (path === '/' && (href === '/' || href === '//'))) {
+        a.classList.add('active');
       }
     });
   })();
