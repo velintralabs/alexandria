@@ -771,6 +771,16 @@
     if (e.key === "Escape") closeModal();
   });
 
+  // resize-close-mobile
+  window.addEventListener("resize", function () {
+    if (window.innerWidth >= 1100 && mobileNav && menuToggle) {
+      mobileNav.classList.remove("open");
+      menuToggle.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+  });
+
   var stickyCta = document.querySelector(".sticky-cta");
   if (stickyCta) {
     window.addEventListener(
