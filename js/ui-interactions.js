@@ -213,7 +213,7 @@
     logo.addEventListener('click', function(e) {
       if (this.getAttribute('href') === 'index.html' || this.getAttribute('href') === './') {
         // Only smooth scroll if we're on the same page
-        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+        if (window.location.pathname === '/' || window.location.pathname.endsWith('/index.html')) {
           e.preventDefault();
           window.scrollTo({
             top: 0,
