@@ -579,8 +579,6 @@
       if (e.key === "Escape") closeMobileMenu();
     });
   }
-);
-  }
 
   var sections = document.querySelectorAll("section[id]");
   var navLinks = document.querySelectorAll(".nav a");
