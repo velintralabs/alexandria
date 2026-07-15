@@ -3226,6 +3226,234 @@ body.nav-open {
   .about-actions .btn { flex: 1 1 auto; min-width: 140px; justify-content: center; }
 }
 
+/* === Hero auto-rotating highlights === */
+.hero-hot {
+  position: relative;
+  z-index: 2;
+  width: min(100% - 40px, var(--max, 1240px));
+  margin: 0 auto;
+  padding: 0 0 28px;
+}
+.hero-hot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.hero-hot-label {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.hero-rotator-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-rotator-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hero-rotator-btn:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(212,181,106,0.5);
+}
+.hero-rotator-btn[aria-pressed="true"] {
+  border-color: rgba(212,181,106,0.7);
+  color: #e0c27a;
+}
+.hero-rotator-viewport {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(10px);
+}
+.hero-rotator-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.hero-slide {
+  flex: 0 0 100%;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+  min-width: 100%;
+  color: #fff;
+  text-decoration: none;
+  background: transparent;
+  transition: background 0.2s;
+}
+.hero-slide:hover {
+  background: rgba(255,255,255,0.03);
+}
+.hero-slide-media {
+  position: relative;
+  min-height: 120px;
+  overflow: hidden;
+  background: #111;
+}
+.hero-slide-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 120px;
+  transition: transform 0.6s ease;
+}
+.hero-slide:hover .hero-slide-media img {
+  transform: scale(1.04);
+}
+.hero-slide-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 5px 9px;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(12,12,12,0.78);
+  color: #e0c27a;
+  border: 1px solid rgba(212,181,106,0.35);
+  font-weight: 600;
+}
+body.lang-ar .hero-slide-tag { left: auto; right: 10px; }
+.hero-slide-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 20px;
+  min-width: 0;
+}
+.hero-slide-body strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hero-slide-body span {
+  display: block;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 8px;
+}
+.hero-slide-body em {
+  font-style: normal;
+  font-family: var(--font-serif), Georgia, serif;
+  color: #e0c27a;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+.hero-rotator-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-rotator-progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #b8954a, #e0c27a);
+}
+.hero-rotator-progress span.is-running {
+  animation-name: heroProgress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes heroProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+.hero-rotator-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.hero-rotator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: rgba(255,255,255,0.28);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+.hero-rotator-dot.is-active {
+  background: #e0c27a;
+  transform: scale(1.25);
+}
+.hero-rotator-dot:hover {
+  background: rgba(255,255,255,0.55);
+}
+
+@media (max-width: 760px) {
+  .hero-hot { width: min(100% - 32px, var(--max, 1240px)); padding-bottom: 20px; }
+  .hero-slide {
+    grid-template-columns: 112px 1fr;
+  }
+  .hero-slide-media,
+  .hero-slide-media img {
+    min-height: 96px;
+  }
+  .hero-slide-body {
+    padding: 12px 14px;
+  }
+  .hero-slide-body strong {
+    font-size: 0.92rem;
+  }
+  .hero-slide-body em {
+    font-size: 1rem;
+  }
+  .hero-rotator-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
+@media (max-width: 400px) {
+  .hero-slide {
+    grid-template-columns: 96px 1fr;
+  }
+  .hero-hot-head {
+    gap: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rotator-track {
+    transition: none;
+  }
+  .hero-rotator-progress span.is-running {
+    animation: none;
+    width: 100%;
+  }
+}
+
+
+.hero-hot-row { display: none !important; }
+
 </style>
 </head>
 <body class="page-interior page-faq">
@@ -4198,6 +4426,173 @@ body.nav-open {
     el.style.opacity = "1";
     el.style.transform = "none";
   });
+
+  /* Hero property highlights rotator */
+  (function initHeroRotator() {
+    var root = document.getElementById("hero-rotator");
+    if (!root) return;
+
+    var track = document.getElementById("hero-rotator-track");
+    var progress = document.getElementById("hero-rotator-progress");
+    var dotsWrap = document.getElementById("hero-rotator-dots");
+    var btnPrev = document.getElementById("hero-rotator-prev");
+    var btnNext = document.getElementById("hero-rotator-next");
+    var btnPause = document.getElementById("hero-rotator-pause");
+    if (!track) return;
+
+    var slides = Array.prototype.slice.call(track.querySelectorAll(".hero-slide"));
+    var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.querySelectorAll("[data-dot]")) : [];
+    var total = slides.length;
+    if (!total) return;
+
+    var index = 0;
+    var paused = false;
+    var hovering = false;
+    var reduceMotion = false;
+    try {
+      reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) {}
+    var interval = parseInt(root.getAttribute("data-interval") || "4500", 10);
+    if (isNaN(interval) || interval < 2500) interval = 4500;
+    var timer = null;
+
+    function setPausedUI(isPaused) {
+      if (!btnPause) return;
+      btnPause.setAttribute("aria-pressed", isPaused ? "true" : "false");
+      btnPause.setAttribute("aria-label", isPaused ? "Play rotation" : "Pause rotation");
+      var iconPause = btnPause.querySelector(".icon-pause");
+      var iconPlay = btnPause.querySelector(".icon-play");
+      if (iconPause) iconPause.style.display = isPaused ? "none" : "";
+      if (iconPlay) iconPlay.style.display = isPaused ? "" : "none";
+    }
+
+    function goTo(i, userAction) {
+      index = (i + total) % total;
+      track.style.transform = "translate3d(" + (-index * 100) + "%, 0, 0)";
+      slides.forEach(function (slide, sIdx) {
+        slide.classList.toggle("is-active", sIdx === index);
+      });
+      dots.forEach(function (dot, dIdx) {
+        dot.classList.toggle("is-active", dIdx === index);
+      });
+      restartProgress(userAction);
+    }
+
+    function restartProgress(userAction) {
+      if (!progress) return;
+      progress.classList.remove("is-running");
+      progress.style.animationDuration = "";
+      // force reflow
+      void progress.offsetWidth;
+      if (paused || hovering || reduceMotion) {
+        progress.style.width = userAction ? "0%" : "100%";
+        return;
+      }
+      progress.style.width = "0%";
+      progress.style.animationDuration = interval + "ms";
+      progress.classList.add("is-running");
+    }
+
+    function next() { goTo(index + 1, false); }
+    function prev() { goTo(index - 1, true); }
+
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      if (paused || hovering || reduceMotion) return;
+      timer = setInterval(next, interval);
+      restartProgress(false);
+    }
+
+    function pause(toggle) {
+      if (typeof toggle === "boolean") paused = toggle;
+      else paused = !paused;
+      setPausedUI(paused);
+      if (paused) {
+        stopTimer();
+        if (progress) {
+          progress.classList.remove("is-running");
+        }
+      } else {
+        startTimer();
+      }
+    }
+
+    if (btnNext) btnNext.addEventListener("click", function () { goTo(index + 1, true); startTimer(); });
+    if (btnPrev) btnPrev.addEventListener("click", function () { goTo(index - 1, true); startTimer(); });
+    if (btnPause) btnPause.addEventListener("click", function () { pause(); });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        var i = parseInt(dot.getAttribute("data-dot"), 10) || 0;
+        goTo(i, true);
+        startTimer();
+      });
+    });
+
+    root.addEventListener("mouseenter", function () {
+      hovering = true;
+      stopTimer();
+      if (progress) progress.classList.remove("is-running");
+    });
+    root.addEventListener("mouseleave", function () {
+      hovering = false;
+      if (!paused) startTimer();
+    });
+    root.addEventListener("focusin", function () {
+      hovering = true;
+      stopTimer();
+      if (progress) progress.classList.remove("is-running");
+    });
+    root.addEventListener("focusout", function (e) {
+      if (!root.contains(e.relatedTarget)) {
+        hovering = false;
+        if (!paused) startTimer();
+      }
+    });
+
+    // Touch swipe
+    var touchX = null;
+    root.addEventListener("touchstart", function (e) {
+      if (!e.changedTouches || !e.changedTouches.length) return;
+      touchX = e.changedTouches[0].clientX;
+      hovering = true;
+      stopTimer();
+      if (progress) progress.classList.remove("is-running");
+    }, { passive: true });
+    root.addEventListener("touchend", function (e) {
+      if (touchX == null || !e.changedTouches || !e.changedTouches.length) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) goTo(index + 1, true);
+        else goTo(index - 1, true);
+      }
+      hovering = false;
+      if (!paused) startTimer();
+    }, { passive: true });
+
+    // Pause when tab hidden
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        stopTimer();
+        if (progress) progress.classList.remove("is-running");
+      } else if (!paused && !hovering) {
+        startTimer();
+      }
+    });
+
+    goTo(0, true);
+    if (!reduceMotion) startTimer();
+    else setPausedUI(true);
+  })();
+
   applyLang();
 })();
 

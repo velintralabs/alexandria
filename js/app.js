@@ -850,5 +850,172 @@
     el.style.opacity = "1";
     el.style.transform = "none";
   });
+
+  /* Hero property highlights rotator */
+  (function initHeroRotator() {
+    var root = document.getElementById("hero-rotator");
+    if (!root) return;
+
+    var track = document.getElementById("hero-rotator-track");
+    var progress = document.getElementById("hero-rotator-progress");
+    var dotsWrap = document.getElementById("hero-rotator-dots");
+    var btnPrev = document.getElementById("hero-rotator-prev");
+    var btnNext = document.getElementById("hero-rotator-next");
+    var btnPause = document.getElementById("hero-rotator-pause");
+    if (!track) return;
+
+    var slides = Array.prototype.slice.call(track.querySelectorAll(".hero-slide"));
+    var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.querySelectorAll("[data-dot]")) : [];
+    var total = slides.length;
+    if (!total) return;
+
+    var index = 0;
+    var paused = false;
+    var hovering = false;
+    var reduceMotion = false;
+    try {
+      reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) {}
+    var interval = parseInt(root.getAttribute("data-interval") || "4500", 10);
+    if (isNaN(interval) || interval < 2500) interval = 4500;
+    var timer = null;
+
+    function setPausedUI(isPaused) {
+      if (!btnPause) return;
+      btnPause.setAttribute("aria-pressed", isPaused ? "true" : "false");
+      btnPause.setAttribute("aria-label", isPaused ? "Play rotation" : "Pause rotation");
+      var iconPause = btnPause.querySelector(".icon-pause");
+      var iconPlay = btnPause.querySelector(".icon-play");
+      if (iconPause) iconPause.style.display = isPaused ? "none" : "";
+      if (iconPlay) iconPlay.style.display = isPaused ? "" : "none";
+    }
+
+    function goTo(i, userAction) {
+      index = (i + total) % total;
+      track.style.transform = "translate3d(" + (-index * 100) + "%, 0, 0)";
+      slides.forEach(function (slide, sIdx) {
+        slide.classList.toggle("is-active", sIdx === index);
+      });
+      dots.forEach(function (dot, dIdx) {
+        dot.classList.toggle("is-active", dIdx === index);
+      });
+      restartProgress(userAction);
+    }
+
+    function restartProgress(userAction) {
+      if (!progress) return;
+      progress.classList.remove("is-running");
+      progress.style.animationDuration = "";
+      // force reflow
+      void progress.offsetWidth;
+      if (paused || hovering || reduceMotion) {
+        progress.style.width = userAction ? "0%" : "100%";
+        return;
+      }
+      progress.style.width = "0%";
+      progress.style.animationDuration = interval + "ms";
+      progress.classList.add("is-running");
+    }
+
+    function next() { goTo(index + 1, false); }
+    function prev() { goTo(index - 1, true); }
+
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      if (paused || hovering || reduceMotion) return;
+      timer = setInterval(next, interval);
+      restartProgress(false);
+    }
+
+    function pause(toggle) {
+      if (typeof toggle === "boolean") paused = toggle;
+      else paused = !paused;
+      setPausedUI(paused);
+      if (paused) {
+        stopTimer();
+        if (progress) {
+          progress.classList.remove("is-running");
+        }
+      } else {
+        startTimer();
+      }
+    }
+
+    if (btnNext) btnNext.addEventListener("click", function () { goTo(index + 1, true); startTimer(); });
+    if (btnPrev) btnPrev.addEventListener("click", function () { goTo(index - 1, true); startTimer(); });
+    if (btnPause) btnPause.addEventListener("click", function () { pause(); });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        var i = parseInt(dot.getAttribute("data-dot"), 10) || 0;
+        goTo(i, true);
+        startTimer();
+      });
+    });
+
+    root.addEventListener("mouseenter", function () {
+      hovering = true;
+      stopTimer();
+      if (progress) progress.classList.remove("is-running");
+    });
+    root.addEventListener("mouseleave", function () {
+      hovering = false;
+      if (!paused) startTimer();
+    });
+    root.addEventListener("focusin", function () {
+      hovering = true;
+      stopTimer();
+      if (progress) progress.classList.remove("is-running");
+    });
+    root.addEventListener("focusout", function (e) {
+      if (!root.contains(e.relatedTarget)) {
+        hovering = false;
+        if (!paused) startTimer();
+      }
+    });
+
+    // Touch swipe
+    var touchX = null;
+    root.addEventListener("touchstart", function (e) {
+      if (!e.changedTouches || !e.changedTouches.length) return;
+      touchX = e.changedTouches[0].clientX;
+      hovering = true;
+      stopTimer();
+      if (progress) progress.classList.remove("is-running");
+    }, { passive: true });
+    root.addEventListener("touchend", function (e) {
+      if (touchX == null || !e.changedTouches || !e.changedTouches.length) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) goTo(index + 1, true);
+        else goTo(index - 1, true);
+      }
+      hovering = false;
+      if (!paused) startTimer();
+    }, { passive: true });
+
+    // Pause when tab hidden
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        stopTimer();
+        if (progress) progress.classList.remove("is-running");
+      } else if (!paused && !hovering) {
+        startTimer();
+      }
+    });
+
+    goTo(0, true);
+    if (!reduceMotion) startTimer();
+    else setPausedUI(true);
+  })();
+
   applyLang();
 })();
