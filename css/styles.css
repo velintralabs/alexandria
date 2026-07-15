@@ -350,24 +350,19 @@ body.lang-ar .section-head .btn { justify-self: start; }
 .mobile-nav {
   position: fixed;
   inset: 0;
-  background: #0c0c0c;
-  z-index: 180;
+  z-index: 250;
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 6px;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  gap: 8px;
+  background: #0c0c0c;
   padding: 100px 28px 48px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .mobile-nav.open {
   display: flex;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
 }
 .mobile-nav a {
   font-family: var(--font-serif), Georgia, serif;
@@ -2613,31 +2608,52 @@ input, select, textarea, button {
   }
 }
 
-/* === Mobile nav: never leak into page when closed === */
-.mobile-nav[hidden],
-.mobile-nav:not(.open) {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  opacity: 0 !important;
+
+
+/* === Hamburger fix === */
+.menu-toggle {
+  position: relative;
+  z-index: 260 !important;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+}
+@media (max-width: 1099px) {
+  .menu-toggle {
+    display: flex !important;
+  }
+  .nav {
+    display: none !important;
+  }
+}
+@media (min-width: 1100px) {
+  .menu-toggle {
+    display: none !important;
+  }
+  .mobile-nav,
+  .mobile-nav.open {
+    display: none !important;
+  }
+}
+.mobile-nav {
   position: fixed !important;
   inset: 0 !important;
-  z-index: 180 !important;
-  height: 0 !important;
-  width: 0 !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  z-index: 250 !important;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: #0c0c0c;
+  padding: 100px 28px 48px;
+  overflow-y: auto;
 }
 .mobile-nav.open {
   display: flex !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  opacity: 1 !important;
-  height: 100% !important;
-  width: 100% !important;
-  overflow: auto !important;
-  padding: 100px 28px 48px !important;
+}
+body.nav-open {
+  overflow: hidden !important;
 }
 .mobile-nav-cta {
   margin-top: 22px !important;
@@ -2646,16 +2662,19 @@ input, select, textarea, button {
   color: #111 !important;
   min-height: 48px;
   padding: 0 24px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
 }
 .mobile-nav-phone {
   margin-top: 14px !important;
   font-size: 0.95rem !important;
   color: rgba(255,255,255,0.65) !important;
-  letter-spacing: 0.02em;
 }
-/* Hide any stray body-level consultation buttons that are not header-cta */
-body > a.btn.btn-dark[data-i18n="nav.cta"],
-body > a.btn[style*="margin-top:20px"][data-i18n="nav.cta"] {
+/* Kill any [hidden] interference - we use class only */
+.mobile-nav[hidden] {
   display: none !important;
 }
-
+.mobile-nav.open[hidden] {
+  display: flex !important;
+}
