@@ -364,19 +364,22 @@ body.lang-ar .section-head .btn { justify-self: start; }
   inset: 0;
   background: #0c0c0c;
   z-index: 180;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 6px;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   padding: 100px 28px 48px;
 }
 .mobile-nav.open {
+  display: flex;
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 .mobile-nav a {
   font-family: var(--font-serif), Georgia, serif;
@@ -1638,10 +1641,10 @@ body.lang-ar .float-wa { right: auto; left: 26px; }
   transform: translateY(110%);
   transition: transform 0.35s var(--ease);
 }
-.sticky-cta.show { transform: translateY(0); }
+.sticky-cta.show { display: none !important; }
 .sticky-cta .btn { flex: 1; min-height: 50px; }
 @media (max-width: 760px) {
-  .sticky-cta { display: flex; }
+  .sticky-cta { display: none !important; }
   .float-wa { bottom: 88px; }
 }
 
@@ -2441,11 +2444,7 @@ input, select, textarea, button {
   }
 
   /* Mobile conversion bar */
-  .sticky-cta {
-    display: flex !important;
-    gap: 8px;
-    padding: 10px 12px calc(10px + var(--safe-bottom));
-  }
+  .sticky-cta { display: none !important; }
   .sticky-cta .btn {
     flex: 1;
     min-height: 46px;
@@ -2455,7 +2454,7 @@ input, select, textarea, button {
   .float-wa {
     width: 50px;
     height: 50px;
-    bottom: calc(72px + var(--safe-bottom)) !important;
+    bottom: max(16px, calc(16px + var(--safe-bottom))) !important;
     right: 14px;
   }
   body.lang-ar .float-wa {
@@ -2626,6 +2625,48 @@ input, select, textarea, button {
   }
 }
 
+
+/* === Mobile header / CTA cleanup === */
+.sticky-cta,
+.sticky-cta.show {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+
+/* Only one top header bar */
+.site-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 200 !important;
+}
+
+/* Mobile menu fully removed from layout when closed */
+.mobile-nav:not(.open) {
+  display: none !important;
+  pointer-events: none !important;
+}
+.mobile-nav.open {
+  display: flex !important;
+}
+
+/* Float WA only - clear of bottom edge */
+@media (max-width: 760px) {
+  .float-wa {
+    bottom: max(16px, calc(16px + env(safe-area-inset-bottom, 0px))) !important;
+  }
+  body.lang-ar .float-wa {
+    bottom: max(16px, calc(16px + env(safe-area-inset-bottom, 0px))) !important;
+  }
+  .sticky-cta { display: none !important; }
+}
+
 </style>
 </head>
 <body class="page-interior">
@@ -2751,12 +2792,6 @@ input, select, textarea, button {
     </div>
   </div>
 </footer>
-
-<div class="sticky-cta" aria-label="Quick contact">
-  <a href="https://api.whatsapp.com/send?phone=971581048601" class="btn btn-dark" data-wa target="_blank" rel="noopener noreferrer">WhatsApp</a>
-  <a href="contact.html" class="btn btn-gold" data-i18n="nav.cta">Consultation</a>
-</div>
-
 <a href="https://api.whatsapp.com/send?phone=971581048601" class="float-wa" data-wa target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
