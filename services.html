@@ -425,12 +425,12 @@ body.lang-ar .section-head .btn { justify-self: start; }
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  align-items: stretch;
-  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  background: #070707;
   overflow: hidden;
   isolation: isolate;
+  padding: calc(var(--header, 80px) + 28px) 0 0;
 }
 .hero-photo {
   position: absolute;
@@ -441,10 +441,9 @@ body.lang-ar .section-head .btn { justify-self: start; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 62% 30%;
-  min-height: 100%;
-  transform: scale(1.04);
-  filter: saturate(1.05) contrast(1.04);
+  object-position: 58% 32%;
+  transform: scale(1.06);
+  filter: contrast(1.08) saturate(1.08) brightness(0.92);
 }
 .hero-photo::before {
   content: "";
@@ -452,368 +451,412 @@ body.lang-ar .section-head .btn { justify-self: start; }
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(ellipse 70% 60% at 75% 40%, rgba(184, 149, 74, 0.14) 0%, transparent 55%),
-    linear-gradient(105deg,
-      rgba(8, 8, 8, 0.88) 0%,
-      rgba(8, 8, 8, 0.72) 34%,
-      rgba(8, 8, 8, 0.28) 58%,
-      rgba(8, 8, 8, 0.45) 100%);
-}
-.hero-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(to top, rgba(8,8,8,0.75) 0%, transparent 38%);
+    linear-gradient(90deg, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.62) 42%, rgba(5,5,5,0.25) 68%, rgba(5,5,5,0.45) 100%),
+    linear-gradient(to top, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.25) 42%, rgba(5,5,5,0.35) 100%),
+    radial-gradient(ellipse 55% 50% at 70% 35%, rgba(184,149,74,0.16), transparent 60%);
 }
 body.lang-ar .hero-photo::before {
   background:
-    radial-gradient(ellipse 70% 60% at 25% 40%, rgba(184, 149, 74, 0.14) 0%, transparent 55%),
-    linear-gradient(255deg,
-      rgba(8, 8, 8, 0.88) 0%,
-      rgba(8, 8, 8, 0.72) 34%,
-      rgba(8, 8, 8, 0.28) 58%,
-      rgba(8, 8, 8, 0.45) 100%);
+    linear-gradient(270deg, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.62) 42%, rgba(5,5,5,0.25) 68%, rgba(5,5,5,0.45) 100%),
+    linear-gradient(to top, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.25) 42%, rgba(5,5,5,0.35) 100%),
+    radial-gradient(ellipse 55% 50% at 30% 35%, rgba(184,149,74,0.16), transparent 60%);
 }
 
-.hero-copy {
+.hero-shell {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: calc(var(--header, 80px) + 64px) 40px 80px max(40px, calc((100vw - var(--max, 1240px)) / 2 + 20px));
-  color: #fff;
-  max-width: none;
+  width: min(100% - 40px, var(--max, 1240px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  padding-bottom: 36px;
+  min-height: calc(100vh - var(--header, 80px) - 36px);
 }
+
+.hero-copy { color: #fff; max-width: 640px; }
 .hero-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  width: fit-content;
-  margin-bottom: 32px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding: 8px 14px;
+  border: 1px solid rgba(184,149,74,0.45);
+  background: rgba(184,149,74,0.1);
+  color: #e0c27a;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
 }
-.hero-kicker::before {
-  content: "";
-  width: 28px;
-  height: 1px;
-  background: var(--gold, #b8954a);
-  flex-shrink: 0;
-}
-body.lang-ar .hero-kicker::before {
-  order: 2;
-}
-
 .hero h1 {
   font-family: var(--font-serif), Georgia, serif;
-  font-size: clamp(2.8rem, 5.6vw, 4.6rem);
-  line-height: 1.02;
-  max-width: 11ch;
-  margin: 0 0 28px;
-  color: #fff;
+  font-size: clamp(2.7rem, 6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
   font-weight: 400;
-  letter-spacing: -0.03em;
+  margin: 0 0 18px;
+  color: #fff;
+  max-width: 12ch;
+  text-wrap: balance;
+}
+.hero h1 .line-gold {
+  color: #d4b56a;
+  font-style: italic;
 }
 .hero-lead {
-  font-size: 1.08rem;
-  color: rgba(255, 255, 255, 0.68);
-  max-width: 34ch;
-  margin: 0 0 40px;
-  line-height: 1.85;
-  font-weight: 400;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.7;
+  color: rgba(255,255,255,0.74);
+  max-width: 36ch;
+  margin: 0 0 28px;
 }
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 56px;
+  gap: 12px;
+  margin-bottom: 34px;
 }
 .hero-actions .btn {
   min-height: 54px;
-  padding: 0 28px;
+  padding: 0 26px;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
 }
-.hero-actions .btn-dark {
+.hero-actions .btn-primary-hero {
+  background: #d4b56a;
+  border: 1px solid #d4b56a;
+  color: #111;
+  font-weight: 600;
+}
+.hero-actions .btn-primary-hero:hover {
+  background: #e0c27a;
+  border-color: #e0c27a;
+  color: #111;
+  transform: translateY(-1px);
+}
+.hero-actions .btn-secondary-hero {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.5);
+  color: #fff;
+}
+.hero-actions .btn-secondary-hero:hover {
   background: #fff;
-  color: #0c0c0c;
+  color: #111;
   border-color: #fff;
 }
-.hero-actions .btn-dark:hover {
-  background: transparent;
-  color: #fff;
-  border-color: rgba(255,255,255,0.7);
+
+.hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-bottom: 28px;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.82rem;
 }
-.hero-actions .btn-line {
-  color: #fff;
-  border-color: rgba(255,255,255,0.38);
-  background: transparent;
+.hero-proof span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
-.hero-actions .btn-line:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: #fff;
-  color: #fff;
+.hero-proof i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d4b56a;
+  display: inline-block;
 }
 
 .hero-meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
-  max-width: 540px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255,255,255,0.14);
+  max-width: 520px;
+  border-top: 1px solid rgba(255,255,255,0.16);
+  padding-top: 22px;
 }
 .hero-meta > div {
-  padding: 0 20px 0 0;
-  border-right: 1px solid rgba(255,255,255,0.1);
+  padding-right: 16px;
+  border-right: 1px solid rgba(255,255,255,0.12);
 }
 body.lang-ar .hero-meta > div {
-  border-right: none;
-  border-left: 1px solid rgba(255,255,255,0.1);
-  padding: 0 0 0 20px;
+  padding-right: 0;
+  padding-left: 16px;
+  border-right: 0;
+  border-left: 1px solid rgba(255,255,255,0.12);
 }
-.hero-meta > div:last-child { border: none; padding-right: 0; }
-body.lang-ar .hero-meta > div:last-child { padding-left: 0; }
+.hero-meta > div:last-child { border: 0; padding-right: 0; padding-left: 0; }
 .hero-meta strong {
   display: block;
   font-family: var(--font-serif), Georgia, serif;
-  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
-  font-weight: 400;
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
   color: #fff;
-  margin-bottom: 8px;
   line-height: 1;
+  margin-bottom: 8px;
   letter-spacing: -0.02em;
 }
 .hero-meta span {
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.42);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  line-height: 1.45;
   display: block;
-  max-width: 11ch;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.35;
 }
 
-/* Right panel - elevated enquiry card */
+/* Enquiry card */
 .hero-panel {
-  position: relative;
-  z-index: 2;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: flex-start;
-  padding: calc(var(--header, 80px) + 48px) max(28px, calc((100vw - var(--max, 1240px)) / 2 + 12px)) 64px 12px;
 }
-.hero-panel-photo { display: none !important; }
-
 .hero-form {
+  width: min(100%, 420px);
+  background: rgba(250,248,244,0.98);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+  padding: 28px 26px 24px;
   position: relative;
-  width: min(100%, 400px);
-  background: rgba(250, 248, 244, 0.97);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow:
-    0 40px 100px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(0,0,0,0.04);
-  padding: 36px 32px 32px;
-  backdrop-filter: blur(12px);
 }
 .hero-form::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--gold, #b8954a);
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #b8954a, #e0c27a, #b8954a);
+}
+.hero-form-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 .hero-form-label {
-  display: block;
   font-size: 0.66rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold-2, #96763a);
+  color: #96763a;
+  font-weight: 700;
+}
+.hero-form-response {
+  font-size: 0.72rem;
+  color: #2f9d6a;
   font-weight: 600;
-  margin-bottom: 12px;
+  letter-spacing: 0.04em;
 }
 .hero-form h2 {
   font-family: var(--font-serif), Georgia, serif;
-  font-size: 1.65rem;
-  color: #0c0c0c;
-  margin: 0 0 8px;
+  font-size: 1.55rem;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  color: #0c0c0c;
   font-weight: 400;
+  letter-spacing: -0.02em;
 }
 .hero-form > p {
-  font-size: 0.92rem;
-  color: #737373;
-  margin: 0 0 26px;
-  line-height: 1.7;
+  margin: 0 0 18px;
+  color: #6a6a6a;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
-.hero-form .field {
-  margin-bottom: 14px;
-}
+.hero-form .field { margin-bottom: 12px; }
 .hero-form .field label {
   display: block;
   font-size: 0.64rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #737373;
-  margin-bottom: 7px;
-  font-weight: 500;
+  color: #777;
+  margin-bottom: 6px;
+  font-weight: 600;
 }
 .hero-form .field input,
-.hero-form .field select,
-.hero-form .field textarea {
+.hero-form .field select {
   width: 100%;
-  min-height: 48px;
-  padding: 0 14px;
-  background: #fff;
+  min-height: 46px;
   border: 1px solid #ddd6c8;
+  background: #fff;
+  padding: 0 12px;
+  font-size: 16px;
   color: #0c0c0c;
-  font-size: 0.94rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .hero-form .field input:focus,
-.hero-form .field select:focus,
-.hero-form .field textarea:focus {
+.hero-form .field select:focus {
+  outline: none;
   border-color: #0c0c0c;
   box-shadow: 0 0 0 1px #0c0c0c;
-  outline: none;
+}
+.hero-form .field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 .hero-form .field select {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23737373' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 36px;
-  background-color: #fff;
+  background-position: right 12px center;
+  padding-right: 34px;
 }
 body.lang-ar .hero-form .field select {
-  background-position: left 14px center;
-  padding-right: 14px;
-  padding-left: 36px;
+  background-position: left 12px center;
+  padding-right: 12px;
+  padding-left: 34px;
 }
-.hero-form .field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.hero-form .btn-gold {
+.hero-form .btn-submit-hero {
+  width: 100%;
+  min-height: 50px;
   margin-top: 4px;
-  min-height: 52px;
   background: #0c0c0c;
-  border-color: #0c0c0c;
   color: #fff;
+  border: 1px solid #0c0c0c;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
 }
-.hero-form .btn-gold:hover {
-  background: #000;
-  border-color: #000;
-  color: #fff;
-}
+.hero-form .btn-submit-hero:hover { background: #000; }
 .hero-form .form-note {
-  margin-top: 14px;
-  font-size: 0.72rem;
-  color: #9b9b9b;
-  line-height: 1.55;
+  margin-top: 12px;
   text-align: center;
+  font-size: 0.72rem;
+  color: #999;
+  line-height: 1.45;
 }
+.hero-form .form-success { display: none; text-align: center; padding: 18px 8px; }
+.hero-form .form-success.show { display: block; }
 .hero-form .form-success h3 {
-  color: #0c0c0c;
   font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: #0c0c0c;
   font-weight: 400;
 }
-.hero-form .form-success p {
-  color: #737373;
-}
+.hero-form .form-success p { color: #666; margin-bottom: 14px; }
 
-/* Corner frame accent - subtle architectural detail */
-.hero-frame {
-  position: absolute;
+/* Hot listings strip under hero content area */
+.hero-hot {
+  position: relative;
   z-index: 2;
-  pointer-events: none;
+  width: min(100% - 40px, var(--max, 1240px));
+  margin: 0 auto;
+  padding: 0 0 28px;
+}
+.hero-hot-label {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.hero-hot-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.hero-hot-card {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 12px;
+  align-items: center;
+  background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
-  width: min(42vw, 520px);
-  height: min(58vh, 560px);
-  right: 6%;
-  top: 50%;
-  transform: translateY(-46%);
-  opacity: 0.55;
+  backdrop-filter: blur(10px);
+  padding: 8px;
+  color: #fff;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  min-width: 0;
 }
-body.lang-ar .hero-frame {
-  right: auto;
-  left: 6%;
+.hero-hot-card:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(212,181,106,0.45);
+  transform: translateY(-2px);
 }
-.hero-frame::before,
-.hero-frame::after {
-  content: "";
-  position: absolute;
-  background: var(--gold, #b8954a);
+.hero-hot-card img {
+  width: 88px;
+  height: 68px;
+  object-fit: cover;
+  display: block;
 }
-.hero-frame::before {
-  top: -1px;
-  left: -1px;
-  width: 48px;
-  height: 1px;
+.hero-hot-card strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.hero-frame::after {
-  top: -1px;
-  left: -1px;
-  width: 1px;
-  height: 48px;
+.hero-hot-card span {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hero-hot-card em {
+  font-style: normal;
+  font-family: var(--font-serif), Georgia, serif;
+  color: #e0c27a;
+  font-size: 0.92rem;
 }
 
 @media (max-width: 1100px) {
-  .hero {
+  .hero { display: block; padding-top: calc(var(--header, 72px) + 12px); }
+  .hero-shell {
     grid-template-columns: 1fr;
     min-height: auto;
+    gap: 24px;
+    padding-bottom: 20px;
   }
-  .hero-copy {
-    padding: calc(var(--header, 80px) + 48px) 28px 36px;
+  .hero-panel { justify-content: center; }
+  .hero-form { width: 100%; max-width: 520px; }
+  .hero h1 { max-width: 14ch; font-size: clamp(2.4rem, 8vw, 3.6rem); }
+  .hero-photo::before {
+    background:
+      linear-gradient(to top, rgba(5,5,5,0.94) 0%, rgba(5,5,5,0.72) 45%, rgba(5,5,5,0.5) 100%),
+      radial-gradient(ellipse 70% 50% at 50% 20%, rgba(184,149,74,0.14), transparent 60%);
   }
-  .hero h1 {
-    max-width: 14ch;
-    font-size: clamp(2.4rem, 8vw, 3.4rem);
-  }
-  .hero-panel {
-    padding: 0 20px 48px;
-    justify-content: center;
-  }
-  .hero-form {
-    width: 100%;
-    max-width: 480px;
-  }
-  .hero-frame { display: none; }
-  .hero-photo::before,
   body.lang-ar .hero-photo::before {
     background:
-      linear-gradient(180deg,
-        rgba(8,8,8,0.55) 0%,
-        rgba(8,8,8,0.72) 40%,
-        rgba(8,8,8,0.92) 100%);
+      linear-gradient(to top, rgba(5,5,5,0.94) 0%, rgba(5,5,5,0.72) 45%, rgba(5,5,5,0.5) 100%),
+      radial-gradient(ellipse 70% 50% at 50% 20%, rgba(184,149,74,0.14), transparent 60%);
   }
 }
 @media (max-width: 760px) {
-  .hero-meta {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .hero-meta > div {
-    border: none !important;
-    padding: 0 0 14px !important;
-    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-  }
-  .hero-meta > div:last-child { border-bottom: none !important; padding-bottom: 0 !important; }
-  .hero-meta span { max-width: none; }
+  .hero-shell { width: min(100% - 32px, var(--max)); padding-bottom: 16px; }
+  .hero-hot { width: min(100% - 32px, var(--max)); padding-bottom: 20px; }
+  .hero h1 { font-size: clamp(2.15rem, 10vw, 2.8rem); max-width: 12ch; margin-bottom: 14px; }
+  .hero-lead { font-size: 0.98rem; margin-bottom: 20px; max-width: none; }
+  .hero-actions { flex-direction: column; margin-bottom: 22px; }
   .hero-actions .btn { width: 100%; }
+  .hero-meta { grid-template-columns: 1fr; gap: 0; }
+  .hero-meta > div {
+    border: 0 !important;
+    border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+    padding: 12px 0 !important;
+  }
+  .hero-meta > div:last-child { border-bottom: 0 !important; }
+  .hero-meta span { max-width: none; }
+  .hero-form { padding: 22px 16px; }
   .hero-form .field-row { grid-template-columns: 1fr; }
-  .hero-form { padding: 28px 22px; }
+  .hero-hot-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .hero-proof { gap: 8px 12px; font-size: 0.78rem; margin-bottom: 20px; }
+  .hero-kicker { margin-bottom: 16px; font-size: 0.64rem; padding: 7px 12px; }
+}
+@media (max-width: 400px) {
+  .hero h1 { font-size: 1.95rem; }
+  .hero-hot-card { grid-template-columns: 72px 1fr; }
+  .hero-hot-card img { width: 72px; height: 58px; }
 }
 
 /* ========== TRUST ========== */
@@ -3382,26 +3425,31 @@ body.nav-open {
       "agents.cta": "Message on WhatsApp",
 
       "hero.kicker": "RERA Licensed · DLD #69664",
-      "hero.title": "Property investment in Dubai, handled with precision",
+      "hero.title": "Your next Dubai address. Chosen with precision.",
       "hero.lead":
         "A licensed brokerage for investors and families seeking carefully selected off-plan and ready homes across Dubai's most established communities.",
-      "hero.cta1": "View properties",
-      "hero.cta2": "Speak on WhatsApp",
+      "hero.cta1": "Explore listings",
+      "hero.cta2": "WhatsApp an advisor",
+      "hero.hot": "Live opportunities",
+      "hero.proof1": "RERA licensed",
+      "hero.proof2": "Bilingual advisors",
+      "hero.proof3": "Same-day shortlist",
+      "form.response": "Avg. reply 15 min",
       "hero.s1": "500+",
       "hero.s1l": "Transactions guided",
       "hero.s2": "AED 1.2B+",
       "hero.s2l": "Client portfolio value",
       "hero.s3": "15 min",
       "hero.s3l": "Average response time",
-      "form.private": "Private desk",
-      "form.title": "Request a private briefing",
-      "form.sub": "Share a few details. A senior advisor responds within the hour.",
+      "form.private": "Instant matching",
+      "form.title": "Get matched in 15 minutes",
+      "form.sub": "Tell us your budget and goal. A senior advisor replies on WhatsApp with tailored options.",
       "form.name": "Full name",
       "form.phone": "Phone / WhatsApp",
       "form.email": "Email",
       "form.budget": "Budget",
       "form.interest": "Interest",
-      "form.submit": "Request briefing",
+      "form.submit": "Get my options",
       "form.note": "Confidential. No spam. RERA-regulated advice only.",
       "form.okTitle": "Received",
       "form.okMsg": "Thank you. Continue on WhatsApp to speak with an advisor, or wait for our call.",
@@ -3598,26 +3646,31 @@ body.nav-open {
       "agents.cta": "راسل عبر واتساب",
 
       "hero.kicker": "مرخّص من ريرا · دائرة الأراضي #69664",
-      "hero.title": "استثمار عقاري في دبي بدقة واحتراف",
+      "hero.title": "عنوانك القادم في دبي. باختيار دقيق.",
       "hero.lead":
         "وساطة مرخّصة للمستثمرين والعائلات الباحثين عن عقارات مختارة على الخارطة وجاهزة في أرقى مجتمعات دبي.",
-      "hero.cta1": "عرض العقارات",
-      "hero.cta2": "تواصل واتساب",
+      "hero.cta1": "استكشف العقارات",
+      "hero.cta2": "واتساب مع مستشار",
+      "hero.hot": "فرص متاحة الآن",
+      "hero.proof1": "مرخّص من ريرا",
+      "hero.proof2": "مستشارون ثنائيو اللغة",
+      "hero.proof3": "قائمة قصيرة في نفس اليوم",
+      "form.response": "متوسط الرد 15 دقيقة",
       "hero.s1": "+500",
       "hero.s1l": "صفقة بإشرافنا",
       "hero.s2": "+1.2 مليار درهم",
       "hero.s2l": "قيمة محافظ العملاء",
       "hero.s3": "15 دقيقة",
       "hero.s3l": "متوسط زمن الرد",
-      "form.private": "مكتب خاص",
-      "form.title": "اطلب إحاطة خاصة",
-      "form.sub": "شارك بعض التفاصيل. يرد مستشار أول خلال الساعة.",
+      "form.private": "مطابقة فورية",
+      "form.title": "خيارات مناسبة خلال 15 دقيقة",
+      "form.sub": "أخبرنا بميزانيتك وهدفك. يرد مستشار أول عبر واتساب بخيارات مخصصة.",
       "form.name": "الاسم الكامل",
       "form.phone": "الهاتف / واتساب",
       "form.email": "البريد",
       "form.budget": "الميزانية",
       "form.interest": "الاهتمام",
-      "form.submit": "اطلب الإحاطة",
+      "form.submit": "أرسل خياراتي",
       "form.note": "سرية تامة. بلا رسائل مزعجة. استشارات مرخّصة فقط.",
       "form.okTitle": "تم الاستلام",
       "form.okMsg": "شكراً لك. تابع عبر واتساب للتحدث مع مستشار، أو انتظر اتصالنا.",
