@@ -1,0 +1,41 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs & env
+*.log
+.env
+.env.*
+!.env.example
+
+# Dependencies / build (if added later)
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+coverage/
+
+# Local / temp workspace artifacts
+*.bak
+index.html.bak
+tmp/
+temp/
+.arena/
+
+# Optional large binary caches (keep optimized assets/img)
+assets/img/uris_full.txt
+assets/img/uris.json
+assets/img/_preview_strip.jpg
+assets/logo.b64
+assets/logo_datauri.txt
