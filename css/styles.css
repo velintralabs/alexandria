@@ -19,6 +19,9 @@
   --ease: cubic-bezier(.22,1,.36,1);
 }
 
+/* Import UI enhancements */
+@import url('ui-enhancements.css');
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header) + 12px);overflow-x:hidden;-webkit-text-size-adjust:100%}
 body{

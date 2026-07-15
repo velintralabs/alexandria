@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Noto+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/ui-enhancements.css" />
 <style>
 /* Alexandria RE — Luxury Presence inspired dark luxury system */
 
@@ -2196,5 +2197,6 @@ body { background: var(--void) !important; }
 <script>
 (function(){function ready(fn){if(document.readyState!=='loading')fn();else document.addEventListener('DOMContentLoaded',fn);}ready(function(){var btn=document.querySelector('.menu-toggle');var nav=document.getElementById('mobile-nav');if(!btn||!nav||btn.getAttribute('data-menu-bound')==='1')return;btn.setAttribute('data-menu-bound','1');btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var open=nav.classList.toggle('open');btn.classList.toggle('open',open);btn.setAttribute('aria-expanded',open?'true':'false');nav.setAttribute('aria-hidden',open?'false':'true');document.body.classList.toggle('nav-open',open);document.body.style.overflow=open?'hidden':'';},true);});})();
 </script>
+<script src="js/ui-interactions.js"></script>
 </body>
 </html>
