@@ -851,21 +851,21 @@
     el.style.transform = "none";
   });
 
-  /* Hero property highlights rotator */
-  (function initHeroRotator() {
-    var root = document.getElementById("hero-rotator");
+
+
+  /* Hero full-bleed property banner rotator */
+  (function initHeroBannerRotator() {
+    var root = document.getElementById("hero-bg-rotator");
     if (!root) return;
 
-    var track = document.getElementById("hero-rotator-track");
-    var progress = document.getElementById("hero-rotator-progress");
-    var dotsWrap = document.getElementById("hero-rotator-dots");
-    var btnPrev = document.getElementById("hero-rotator-prev");
-    var btnNext = document.getElementById("hero-rotator-next");
-    var btnPause = document.getElementById("hero-rotator-pause");
-    if (!track) return;
-
-    var slides = Array.prototype.slice.call(track.querySelectorAll(".hero-slide"));
-    var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.querySelectorAll("[data-dot]")) : [];
+    var slides = Array.prototype.slice.call(root.querySelectorAll(".hero-bg-slide"));
+    var captions = Array.prototype.slice.call(document.querySelectorAll("#hero-captions .hero-caption"));
+    var dots = Array.prototype.slice.call(document.querySelectorAll("#hero-bg-dots [data-dot]"));
+    var progress = document.getElementById("hero-bg-progress");
+    var btnPrev = document.getElementById("hero-bg-prev");
+    var btnNext = document.getElementById("hero-bg-next");
+    var btnPause = document.getElementById("hero-bg-pause");
+    var board = document.getElementById("hero-feature-board");
     var total = slides.length;
     if (!total) return;
 
@@ -873,11 +873,9 @@
     var paused = false;
     var hovering = false;
     var reduceMotion = false;
-    try {
-      reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    } catch (e) {}
-    var interval = parseInt(root.getAttribute("data-interval") || "4500", 10);
-    if (isNaN(interval) || interval < 2500) interval = 4500;
+    try { reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    var interval = parseInt(root.getAttribute("data-interval") || "5000", 10);
+    if (isNaN(interval) || interval < 3000) interval = 5000;
     var timer = null;
 
     function setPausedUI(isPaused) {
@@ -890,119 +888,101 @@
       if (iconPlay) iconPlay.style.display = isPaused ? "" : "none";
     }
 
-    function goTo(i, userAction) {
+    function goTo(i) {
       index = (i + total) % total;
-      track.style.transform = "translate3d(" + (-index * 100) + "%, 0, 0)";
       slides.forEach(function (slide, sIdx) {
-        slide.classList.toggle("is-active", sIdx === index);
+        var on = sIdx === index;
+        slide.classList.toggle("is-active", on);
+        slide.setAttribute("aria-hidden", on ? "false" : "true");
+      });
+      captions.forEach(function (cap, cIdx) {
+        cap.classList.toggle("is-active", cIdx === index);
       });
       dots.forEach(function (dot, dIdx) {
         dot.classList.toggle("is-active", dIdx === index);
       });
-      restartProgress(userAction);
+      restartProgress();
     }
 
-    function restartProgress(userAction) {
+    function restartProgress() {
       if (!progress) return;
       progress.classList.remove("is-running");
       progress.style.animationDuration = "";
-      // force reflow
+      progress.style.width = "0%";
       void progress.offsetWidth;
       if (paused || hovering || reduceMotion) {
-        progress.style.width = userAction ? "0%" : "100%";
+        progress.style.width = reduceMotion ? "100%" : "0%";
         return;
       }
-      progress.style.width = "0%";
       progress.style.animationDuration = interval + "ms";
       progress.classList.add("is-running");
     }
 
-    function next() { goTo(index + 1, false); }
-    function prev() { goTo(index - 1, true); }
+    function next() { goTo(index + 1); }
+    function prev() { goTo(index - 1); }
 
     function stopTimer() {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
-      }
+      if (timer) { clearInterval(timer); timer = null; }
     }
-
     function startTimer() {
       stopTimer();
       if (paused || hovering || reduceMotion) return;
       timer = setInterval(next, interval);
-      restartProgress(false);
+      restartProgress();
     }
-
-    function pause(toggle) {
-      if (typeof toggle === "boolean") paused = toggle;
+    function pauseToggle(force) {
+      if (typeof force === "boolean") paused = force;
       else paused = !paused;
       setPausedUI(paused);
       if (paused) {
         stopTimer();
-        if (progress) {
-          progress.classList.remove("is-running");
-        }
+        if (progress) progress.classList.remove("is-running");
       } else {
         startTimer();
       }
     }
 
-    if (btnNext) btnNext.addEventListener("click", function () { goTo(index + 1, true); startTimer(); });
-    if (btnPrev) btnPrev.addEventListener("click", function () { goTo(index - 1, true); startTimer(); });
-    if (btnPause) btnPause.addEventListener("click", function () { pause(); });
-
+    if (btnNext) btnNext.addEventListener("click", function () { next(); if (!paused) startTimer(); });
+    if (btnPrev) btnPrev.addEventListener("click", function () { prev(); if (!paused) startTimer(); });
+    if (btnPause) btnPause.addEventListener("click", function () { pauseToggle(); });
     dots.forEach(function (dot) {
       dot.addEventListener("click", function () {
-        var i = parseInt(dot.getAttribute("data-dot"), 10) || 0;
-        goTo(i, true);
-        startTimer();
+        goTo(parseInt(dot.getAttribute("data-dot"), 10) || 0);
+        if (!paused) startTimer();
       });
     });
 
-    root.addEventListener("mouseenter", function () {
-      hovering = true;
-      stopTimer();
-      if (progress) progress.classList.remove("is-running");
-    });
-    root.addEventListener("mouseleave", function () {
-      hovering = false;
-      if (!paused) startTimer();
-    });
-    root.addEventListener("focusin", function () {
-      hovering = true;
-      stopTimer();
-      if (progress) progress.classList.remove("is-running");
-    });
-    root.addEventListener("focusout", function (e) {
-      if (!root.contains(e.relatedTarget)) {
-        hovering = false;
-        if (!paused) startTimer();
-      }
-    });
+    function bindHover(el) {
+      if (!el) return;
+      el.addEventListener("mouseenter", function () {
+        hovering = true; stopTimer();
+        if (progress) progress.classList.remove("is-running");
+      });
+      el.addEventListener("mouseleave", function () {
+        hovering = false; if (!paused) startTimer();
+      });
+    }
+    bindHover(board);
 
-    // Touch swipe
+    // Touch swipe on hero background area
     var touchX = null;
-    root.addEventListener("touchstart", function (e) {
-      if (!e.changedTouches || !e.changedTouches.length) return;
-      touchX = e.changedTouches[0].clientX;
-      hovering = true;
-      stopTimer();
-      if (progress) progress.classList.remove("is-running");
-    }, { passive: true });
-    root.addEventListener("touchend", function (e) {
-      if (touchX == null || !e.changedTouches || !e.changedTouches.length) return;
-      var dx = e.changedTouches[0].clientX - touchX;
-      touchX = null;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) goTo(index + 1, true);
-        else goTo(index - 1, true);
-      }
-      hovering = false;
-      if (!paused) startTimer();
-    }, { passive: true });
+    var shell = document.querySelector(".hero");
+    if (shell) {
+      shell.addEventListener("touchstart", function (e) {
+        if (!e.changedTouches || !e.changedTouches.length) return;
+        touchX = e.changedTouches[0].clientX;
+      }, { passive: true });
+      shell.addEventListener("touchend", function (e) {
+        if (touchX == null || !e.changedTouches || !e.changedTouches.length) return;
+        var dx = e.changedTouches[0].clientX - touchX;
+        touchX = null;
+        if (Math.abs(dx) > 50) {
+          if (dx < 0) next(); else prev();
+          if (!paused) startTimer();
+        }
+      }, { passive: true });
+    }
 
-    // Pause when tab hidden
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) {
         stopTimer();
@@ -1012,7 +992,7 @@
       }
     });
 
-    goTo(0, true);
+    goTo(0);
     if (!reduceMotion) startTimer();
     else setPausedUI(true);
   })();
