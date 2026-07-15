@@ -2625,47 +2625,52 @@ input, select, textarea, button {
   }
 }
 
-
-/* === Mobile header / CTA cleanup === */
-.sticky-cta,
-.sticky-cta.show {
+/* === Mobile nav: never leak into page when closed === */
+.mobile-nav[hidden],
+.mobile-nav:not(.open) {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;
-  height: 0 !important;
-  overflow: hidden !important;
   opacity: 0 !important;
-  transform: none !important;
-}
-
-/* Only one top header bar */
-.site-header {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 200 !important;
-}
-
-/* Mobile menu fully removed from layout when closed */
-.mobile-nav:not(.open) {
-  display: none !important;
-  pointer-events: none !important;
+  inset: 0 !important;
+  z-index: 180 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .mobile-nav.open {
   display: flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  height: 100% !important;
+  width: 100% !important;
+  overflow: auto !important;
+  padding: 100px 28px 48px !important;
+}
+.mobile-nav-cta {
+  margin-top: 22px !important;
+  background: #b8954a !important;
+  border-color: #b8954a !important;
+  color: #111 !important;
+  min-height: 48px;
+  padding: 0 24px;
+}
+.mobile-nav-phone {
+  margin-top: 14px !important;
+  font-size: 0.95rem !important;
+  color: rgba(255,255,255,0.65) !important;
+  letter-spacing: 0.02em;
+}
+/* Hide any stray body-level consultation buttons that are not header-cta */
+body > a.btn.btn-dark[data-i18n="nav.cta"],
+body > a.btn[style*="margin-top:20px"][data-i18n="nav.cta"] {
+  display: none !important;
 }
 
-/* Float WA only - clear of bottom edge */
-@media (max-width: 760px) {
-  .float-wa {
-    bottom: max(16px, calc(16px + env(safe-area-inset-bottom, 0px))) !important;
-  }
-  body.lang-ar .float-wa {
-    bottom: max(16px, calc(16px + env(safe-area-inset-bottom, 0px))) !important;
-  }
-  .sticky-cta { display: none !important; }
-}
 
 </style>
 </head>
@@ -2701,7 +2706,7 @@ input, select, textarea, button {
   </div>
 </header>
 
-<div class="mobile-nav" id="mobile-nav">
+<div class="mobile-nav" id="mobile-nav" hidden>
   <div class="lang-toggle" role="group" aria-label="Language">
     <button type="button" data-lang="en" class="active">EN</button>
     <button type="button" data-lang="ar">عربي</button>
@@ -2713,20 +2718,9 @@ input, select, textarea, button {
   <a href="agents.html" data-i18n="nav.agents">Agents</a>
   <a href="faq.html" data-i18n="nav.faq">FAQ</a>
   <a href="contact.html" data-i18n="nav.contact">Contact</a>
-  <a href="contact.html" class="btn" data-i18n="nav.cta">Consultation</a>
-  <a href="tel:+971581048601" style="margin-top:10px;font-size:0.95rem;color:rgba(255,255,255,0.65)">+971 58 104 8601</a>
+  <a href="contact.html" class="btn mobile-nav-cta" data-i18n="nav.cta">Consultation</a>
+  <a href="tel:+971581048601" class="mobile-nav-phone">+971 58 104 8601</a>
 </div>
-
-<a href="index.html" data-i18n="nav.home" class="active">Home</a>
-      <a href="properties.html" data-i18n="nav.properties">Properties</a>
-      <a href="services.html" data-i18n="nav.services">Services</a>
-      <a href="about.html" data-i18n="nav.about">Why Us</a>
-      <a href="agents.html" data-i18n="nav.agents">Agents</a>
-      <a href="faq.html" data-i18n="nav.faq">FAQ</a>
-      <a href="contact.html" data-i18n="nav.contact">Contact</a>
-  <a href="contact.html" class="btn btn-dark" style="margin-top:20px" data-i18n="nav.cta">Consultation</a>
-</div>
-
 
 <section class="hero" id="home">
   <div class="hero-photo">
@@ -3618,16 +3612,27 @@ input, select, textarea, button {
   var menuToggle = document.querySelector(".menu-toggle");
   var mobileNav = document.querySelector(".mobile-nav") || document.getElementById("mobile-nav");
   if (menuToggle && mobileNav) {
+    // Ensure closed state on load
+    mobileNav.classList.remove("open");
+    mobileNav.setAttribute("hidden", "");
+    menuToggle.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+
     menuToggle.addEventListener("click", function () {
-      var open = mobileNav.classList.toggle("open");
+      var open = !mobileNav.classList.contains("open");
+      mobileNav.classList.toggle("open", open);
       menuToggle.classList.toggle("open", open);
       menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) mobileNav.removeAttribute("hidden");
+      else mobileNav.setAttribute("hidden", "");
       document.body.style.overflow = open ? "hidden" : "";
     });
     mobileNav.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () {
         mobileNav.classList.remove("open");
+        mobileNav.setAttribute("hidden", "");
         menuToggle.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
         document.body.style.overflow = "";
       });
     });
@@ -3864,6 +3869,7 @@ input, select, textarea, button {
   window.addEventListener("resize", function () {
     if (window.innerWidth >= 1100 && mobileNav && menuToggle) {
       mobileNav.classList.remove("open");
+      mobileNav.setAttribute("hidden", "");
       menuToggle.classList.remove("open");
       menuToggle.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
