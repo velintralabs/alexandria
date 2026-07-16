@@ -164,14 +164,15 @@ ul, ol { list-style: none; }
   position: relative; z-index: 1;
 }
 .logo { display: flex; align-items: center; gap: 12px; }
-.logo-mark { width: 32px; height: 32px; }
-.logo-mark svg { width: 100%; height: 100%; color: var(--white); }
-.logo-text {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  color: var(--white);
+.logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Makes dark logo white on dark background */
+  transition: filter 0.3s ease;
+}
+.logo-img:hover {
+  filter: brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(20deg); /* Gold on hover */
 }
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a {
