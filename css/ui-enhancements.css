@@ -344,8 +344,8 @@ ul, ol { list-style: none; }
 .hero {
   position: relative;
   min-height: 100vh; min-height: 100dvh;
-  display: flex; align-items: flex-end;
-  padding: 0 0 100px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: calc(var(--header-h) + 40px) 0 100px;
   overflow: hidden;
   background: #000;
 }
