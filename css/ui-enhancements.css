@@ -213,6 +213,26 @@ ul, ol { list-style: none; }
   background: var(--white); color: var(--black); border-color: var(--white);
 }
 
+/* ---- Header Actions & Language Toggle ---- */
+.header-actions {
+  display: flex; align-items: center; gap: 14px; z-index: 2;
+}
+.lang-toggle {
+  display: inline-flex; border: 1px solid rgba(255,255,255,0.16); overflow: hidden;
+}
+.lang-toggle button {
+  min-width: 42px; padding: 8px 10px;
+  font-size: 0.68rem; letter-spacing: 0.12em; font-weight: 600;
+  color: rgba(255,255,255,0.55); cursor: pointer; background: transparent; border: 0;
+  transition: all 0.25s ease;
+}
+.lang-toggle button.active {
+  background: var(--white); color: var(--black);
+}
+.lang-toggle button:hover:not(.active) {
+  color: rgba(255,255,255,0.85);
+}
+
 /* Mobile nav */
 .menu-toggle {
   display: none; width: 44px; height: 44px;
@@ -1042,11 +1062,40 @@ ul, ol { list-style: none; }
 }
 .reveal.visible { opacity: 1; transform: none; }
 
+/* ---- RTL / Arabic Language Support ---- */
+body.lang-ar {
+  font-family: 'Noto Sans Arabic', 'DM Sans', sans-serif;
+  direction: rtl;
+}
+body.lang-ar .label::before {
+  display: none;
+}
+body.lang-ar .header-actions { flex-direction: row-reverse; }
+body.lang-ar .hero-kicker::before { display: none; }
+body.lang-ar .hero-actions { flex-direction: row-reverse; }
+body.lang-ar .about-split { direction: rtl; }
+body.lang-ar .featured-header { flex-direction: row-reverse; }
+body.lang-ar .about-text .label { flex-direction: row-reverse; }
+body.lang-ar .wa-float { right: auto; left: 24px; }
+
+/* ---- Mobile nav lang toggle ---- */
+.mobile-nav .lang-toggle {
+  margin-bottom: 28px;
+  border-color: rgba(255,255,255,0.16);
+}
+.mobile-nav .lang-toggle button {
+  color: rgba(255,255,255,0.55);
+}
+.mobile-nav .lang-toggle button.active {
+  background: var(--white); color: var(--black);
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 1100px) {
   .nav-links { display: none; }
   .header-enquire { display: none; }
   .menu-toggle { display: flex; }
+  .header-actions { gap: 10px; }
   .about-split { grid-template-columns: 1fr; gap: 56px; }
   .about-images { order: -1; }
   .prop-grid, .services-grid, .testimonials-grid, .insights-grid { grid-template-columns: repeat(2, 1fr); }
