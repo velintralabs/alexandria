@@ -226,6 +226,88 @@ ul, ol { list-style: none; }
 }
 .mobile-nav a:hover { color: var(--white); }
 
+/* ---- Fullscreen Image Section (Geon-style full-bleed) ---- */
+.fullscreen-image-section {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.fullscreen-image-bg {
+  position: absolute; inset: 0;
+}
+.fullscreen-image-bg img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.45) saturate(0.85);
+}
+.fullscreen-image-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 100%);
+  pointer-events: none;
+}
+.fullscreen-image-content {
+  position: relative; z-index: 1;
+  max-width: 600px;
+  padding: 0 var(--gutter);
+  margin: 0 auto;
+}
+.fullscreen-image-content .label { justify-content: center; }
+.fullscreen-image-content .display {
+  margin-bottom: 20px;
+  color: var(--white);
+}
+.fullscreen-image-content p {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.85;
+  margin-bottom: 36px;
+  font-weight: 300;
+}
+
+/* ---- Split Image Section (Geon Management style) ---- */
+.split-image-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 70vh;
+}
+.split-image-left,
+.split-image-right {
+  position: relative;
+  overflow: hidden;
+}
+.split-image-left img,
+.split-image-right img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.5) saturate(0.85);
+  transition: transform 8s ease;
+}
+.split-image-left:hover img,
+.split-image-right:hover img {
+  transform: scale(1.04);
+}
+.split-image-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(10,10,10,0.8) 100%);
+  pointer-events: none;
+}
+.split-image-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 48px 40px;
+  z-index: 1;
+}
+.split-image-content h3 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.split-image-content p {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+}
+
 /* ---- Hero — Cinematic full-bleed ---- */
 .hero {
   position: relative;
@@ -954,7 +1036,10 @@ ul, ol { list-style: none; }
   .wa-float { right: 16px; bottom: 16px; padding: 12px 20px; }
   .wa-float span { display: none; }
   .lifestyle-section { min-height: 60vh; }
-  .lifestyle-content h2 { font-size: clamp(2rem, 8vw, 3rem); }
+  .fullscreen-image-section { min-height: 60vh; }
+  .split-image-section { grid-template-columns: 1fr; min-height: auto; }
+  .split-image-left, .split-image-right { min-height: 50vh; }
+  .split-image-content { padding: 32px 24px; }
 }
 @media (max-width: 400px) {
   .hero h1 { font-size: 2.2rem; }
