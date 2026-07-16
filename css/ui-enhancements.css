@@ -163,16 +163,16 @@ ul, ol { list-style: none; }
   margin: 0 auto; padding: 0 var(--gutter);
   position: relative; z-index: 1;
 }
-.logo { display: flex; align-items: center; gap: 12px; }
+.logo { display: flex; align-items: center; }
 .logo-img {
-  height: 40px;
+  height: 36px;
   width: auto;
   object-fit: contain;
-  filter: brightness(0) invert(1); /* Makes dark logo white on dark background */
-  transition: filter 0.3s ease;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.3s ease;
 }
 .logo-img:hover {
-  filter: brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(20deg); /* Gold on hover */
+  opacity: 0.8;
 }
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a {
