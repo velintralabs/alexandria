@@ -1045,6 +1045,13 @@ ul, ol { list-style: none; }
   line-height: 1.7;
 }
 
+/* ---- Social Icons ---- */
+.socials a:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
 /* ---- Footer ---- */
 .site-footer {
   background: #030303;
